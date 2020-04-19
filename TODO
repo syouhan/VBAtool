@@ -1,1 +1,72 @@
 1.findNex複数条件：InStr([start,]string1,string2[,compare])合わせて利用
+2.xml
+https://t-yoshi-tomi.at.webry.info/200905/article_4.html
+http://www2d.biglobe.ne.jp/~t_yoshi/xml.html
+
+ＶＢＡやＶＢ６．０でＸＭＬを読み込んで、書き込んでみよう
+Sub Test()
+
+　Dim XmlDoc As DOMDocument 'xmlデータ用変数
+　Dim FileValue As Boolean '読み込み状態用
+
+　Set XmlDoc = CreateObject("Microsoft.XMLDom")
+　XmlDoc.async = False
+　FileValue = XmlDoc.Load("C:\TEST.XML")
+　If FileValue Then
+　　XmlDoc.Save ("C:\TEST2.XML")
+　Else
+　　MsgBox "読み込み失敗！"
+　End If
+
+End Sub
+
+
+
+VBAでＸＭＬにアクセス（指定ノードにアクセスする）
+
+Sub Test20090518()
+
+Dim XmlDoc As DOMDocument 'xmlデータ用変数
+Dim FileValue As Boolean '読み込み状態用
+Dim SelNode As IXMLDOMNodeList
+
+Set XmlDoc = CreateObject("Microsoft.XMLDom")
+XmlDoc.async = False
+FileValue = XmlDoc.Load("C:\TEST.XML")
+If FileValue Then
+　 Set SelNode = XmlDoc.selectNodes("root/info")
+　 MsgBox SelNode.Length　　’←データ数が表示される（この場合は１）
+　MsgBox SelNode(0).Text　　’中身の「よしむ」が表示される
+Else
+　 MsgBox "読み込み失敗！"
+End If
+
+End Sub
+
+
+
+
+
+VBAでXMLを読んで、中身を書き換えて保存する
+Sub Test20090519()
+
+Dim XmlDoc As DOMDocument 'xmlデータ用変数
+Dim FileValue As Boolean '読み込み状態用
+Dim SelNode As IXMLDOMNodeList
+
+Set XmlDoc = CreateObject("Microsoft.XMLDom")
+XmlDoc.async = False
+FileValue = XmlDoc.Load("C:\TEST.XML")
+If FileValue Then
+　Set SelNode = XmlDoc.selectNodes("root/info")
+　MsgBox SelNode.Length
+　 MsgBox SelNode(0).Text
+　 MsgBox SelNode(1).Text
+　 SelNode(0).Text = Format(Now(), "hh:mm:ss") '一つ目に時間を入れる
+　SelNode(1).Text = Format(Now(), "yyyy/mm/dd") '二つ目に日付を入れる
+　XmlDoc.Save ("C:\TEST.XML") 'そして保存
+Else
+　 MsgBox "読み込み失敗！"
+End If
+
+End Sub
