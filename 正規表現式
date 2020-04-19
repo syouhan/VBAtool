@@ -1,3 +1,25 @@
+Sub RegExp_Date_Num()
+    Dim Res()
+    Dim objRegEx As Object
+    Dim objMH As Object
+    Dim j As Integer
+    Set objRegEx = CreateObject("vbscript.regexp")
+    objRegEx.Pattern = "(\d{4}-\d{2}-\d{2}|\d{4}.\d{2}.\d{2}).*?(([A-Z]{3})*\d+[\d.,]*元)"
+    objRegEx.Global = True
+    For i = 2 To Cells(Rows.Count, "A").End(xlUp).Row
+        form = Cells(i, "A")
+        Set objMH = objRegEx.Execute(form)
+        If objMH.Count > 0 Then
+            Cells(i, 2) = CStr(objMH(0).submatches(0))
+            Cells(i, 3) = CStr(objMH(0).submatches(1))
+        End If
+    Next
+    Set objRegEx = Nothing
+    Set objMH = Nothing
+End Sub
+
+
+
 https://www.cnblogs.com/zxin/archive/2013/01/26/2877765.HTML
 数字：^[0-9]*$
  2 n位的数字：^\d{n}$
